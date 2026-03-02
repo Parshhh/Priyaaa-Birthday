@@ -3,62 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Turtle’s 24th Birthday 🐢💛</title>
+<title>Turtle’s 24th Birthday 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-color:white;
-text-align:center;
-overflow-x:hidden;
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
+overflow: hidden;
+font-family: 'Segoe UI', sans-serif;
+color: white;
+
+/* Proper Rich Lavender Shades */
+background: linear-gradient(
+135deg,
+#9d7bff 0%,
+#b28dff 30%,
+#c8b6ff 60%,
+#a084e8 100%
+);
+
+background-size: 200% 200%;
+animation: lavenderMove 14s ease infinite;
 }
 
-/* Pages */
-#countdownPage,#revealPage{
-padding:40px 20px;
-min-height:100vh;
+/* Smooth lavender movement */
+@keyframes lavenderMove {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+/* Overlay */
+#startOverlay{
+position:fixed;
+top:0;left:0;
+width:100%;height:100vh;
+background:#c8b6ff;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+z-index:9999;
+color:white;
+font-family:'Great Vibes',cursive;
+font-size:42px;
+cursor:pointer;
 }
 
-#revealPage{display:none;}
+/* Pages */
+.page {
+position: absolute;
+width: 100%;
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 20px;
+transition: opacity 1s ease;
+background: transparent;
+}
 
-/* Timer */
+.hidden{opacity:0;pointer-events:none;}
+.visible{opacity:1;}
+
 .timer{
-font-size:38px;
+font-size:40px;
 margin:20px 0;
 font-weight:bold;
-}
-
-/* Slideshow */
-.slideshow img{
-width:260px;
-height:340px;
-object-fit:cover;
+color:#4b0082;
+background:rgba(255,255,255,0.6);
+padding:12px 25px;
 border-radius:20px;
-transition:opacity 1s ease-in-out;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+backdrop-filter:blur(8px);
 }
 
-.dateTag{
-margin-top:10px;
-font-size:14px;
-opacity:0.9;
+.glowTitle{
+font-family:'Playfair Display',serif;
+font-size:64px;
+letter-spacing:4px;
+line-height:1.3;
+text-transform:uppercase;
+animation:revealTitle 1.8s ease forwards, glow 2s infinite alternate;
+opacity:0;
 }
 
-/* Polaroids */
-.polaroid{
-position:absolute;
-width:120px;
-border:8px solid white;
-box-shadow:0 4px 10px rgba(0,0,0,0.3);
+/* Smooth dramatic reveal */
+@keyframes revealTitle{
+0%{opacity:0; transform:translateY(40px) scale(0.9);}
+100%{opacity:1; transform:translateY(0) scale(1);}
 }
 
-/* Buttons */
+@keyframes glow{
+from{text-shadow:0 0 10px #fff;}
+to{text-shadow:0 0 40px #c8b6ff;}
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #fff;}
+to{text-shadow:0 0 30px #c8b6ff;}
+}
+
+.slideshow img{
+max-width:85%;
+max-height:60vh;
+border-radius:20px;
+box-shadow:0 15px 35px rgba(0,0,0,0.4);
+transition:opacity 1s ease;
+}
+
 button{
 padding:12px 25px;
 border:none;
@@ -67,151 +124,167 @@ font-size:16px;
 cursor:pointer;
 margin:10px;
 background:white;
-color:#ff4e73;
+color:#7b2cbf;
 transition:0.3s;
 }
+button:hover{transform:scale(1.08);}
 
-button:hover{
-transform:scale(1.05);
-}
-
-/* Hearts */
-.heart{
+/* Balloons */
+.balloon{
 position:fixed;
-font-size:20px;
-animation:float 6s linear infinite;
-opacity:0.7;
+bottom:-150px;
+width:40px;
+height:55px;
+border-radius:50%;
+opacity:0.8;
+animation:floatBalloon linear infinite;
+}
+.balloon:after{
+content:"";
+position:absolute;
+width:2px;
+height:40px;
+background:white;
+left:50%;
+top:55px;
+}
+@keyframes floatBalloon{
+0%{transform:translateY(0);}
+100%{transform:translateY(-120vh);}
 }
 
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
+/* Background slideshow Page 2 */
+#bgSlideshow{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+background-size:cover;
+background-position:center;
+filter:blur(18px) brightness(0.6);
+z-index:-1;
+transition:background-image 1.5s ease-in-out;
 }
 
-.fade{
-animation:fadeIn 2s ease-in;
-}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+/* Invitation card */
+.inviteCard{
+background:white;
+color:#7b2cbf;
+padding:40px;
+border-radius:20px;
+max-width:400px;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
+font-family:'Great Vibes',cursive;
+font-size:24px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- COUNTDOWN PAGE -->
-<div id="countdownPage">
-<h1>Hey Turtle 🐢</h1>
-<p>Something magical unlocks at midnight...</p>
-<div class="timer" id="timer"></div>
+<div id="startOverlay">Tap to Begin 💜</div>
 
+<!-- PAGE 1 -->
+<div id="page1" class="page visible">
+<h1 class="glowTitle">Hey Turtle 🐢</h1>
+<p>Countdown to your special day 💜</p>
+<div class="timer" id="timer"></div>
 <div class="slideshow">
 <img id="slideImage" src="photo1.jpg">
-<div class="dateTag" id="dateTag">Our first memory 💛</div>
 </div>
 </div>
 
-<!-- REVEAL PAGE -->
-<div id="revealPage">
-<h1 class="fade">Happy 24th Birthday, Priya 🎂✨</h1>
+<!-- PAGE 2 -->
+<div id="page2" class="page hidden">
+<div id="bgSlideshow"></div>
+<h1 class="glowTitle">
+HAPPY&nbsp;&nbsp;BIRTHDAY<br>BABYYYY&nbsp;💜
+</h1>
 
-<p class="fade">
-Main apni favorite hoon…  
-But tonight, you’re my forever favorite.
-</p>
+<p>Main apni favorite hoon…</p>
+<p>Par aaj se, tum meri forever favorite ho.</p>
+<p>Agar life ek train journey hai…</p>
+<p>toh main khush hoon ki meri Geet mujhe mil gayi.</p>
 
-<p class="fade">
-Agar life ek train journey hai,  
-toh I’m just grateful I met my Geet in this lifetime.  
-Tumne meri simple si story ko full Bollywood bana diya.
-</p>
+<h3>Will you celebrate this birthday with me? 💜</h3>
 
-<p class="fade">
-Get ready by 12.  
-Your driver is arriving.  
-Aur haan… late mat hona 😌
-</p>
-
-<h2 class="fade">Nido – Craft Kitchen & Bar 🍽✨</h2>
-<p>Bangalore</p>
-
-<button onclick="playMusic()">Play Our Song 🎵</button>
-
-<h3>Will you come on your birthday lunch date with me?</h3>
-<button onclick="yesClicked()">Yes 💛</button>
-<button id="noBtn" onmouseover="moveNo()">No 🙈</button>
-
-<audio id="bgMusic" src="instrumental.mp3"></audio>
+<button onclick="goToInvite()">YES 💜</button>
+<button id="noBtn" onmouseover="moveNo()">NO 🙈</button>
 </div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page hidden">
+<div class="inviteCard">
+Priya Turns 24 💜<br><br>
+You are invited to a birthday lunch date<br><br>
+Nido – Craft Kitchen & Bar<br>
+Bangalore<br><br>
+Pick-up at 12 sharp 😌<br>
+Dress pretty. Smile wide.
+</div>
+</div>
+
+<audio id="bgMusic" src="instrumental.mp3" loop></audio>
 
 <script>
 
-// ===== IST COUNTDOWN =====
-const birthday = new Date("March 3, 2026 00:00:00 GMT+0530").getTime();
+/* MUSIC WITH USER TAP */
+const music = document.getElementById("bgMusic");
+music.volume = 0.6;
 
-const timerInterval = setInterval(function(){
-const now = new Date().getTime();
-const distance = birthday - now;
+document.getElementById("startOverlay").addEventListener("click", function(){
+music.play();
+this.style.display = "none";
+});
 
-const days = Math.floor(distance/(1000*60*60*24));
-const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds = Math.floor((distance%(1000*60))/1000);
-
-document.getElementById("timer").innerHTML =
-days+"d "+hours+"h "+minutes+"m "+seconds+"s";
-
-if(distance<0){
-clearInterval(timerInterval);
-document.getElementById("countdownPage").style.display="none";
-document.getElementById("revealPage").style.display="flex";
-launchHearts();
-document.documentElement.requestFullscreen();
+/* Balloons */
+const colors=["#e7c6ff","#c8b6ff","#b8c0ff","#d0bfff"];
+for(let i=0;i<20;i++){
+let b=document.createElement("div");
+b.className="balloon";
+b.style.left=Math.random()*100+"vw";
+b.style.background=colors[Math.floor(Math.random()*colors.length)];
+b.style.animationDuration=(8+Math.random()*6)+"s";
+document.body.appendChild(b);
 }
+
+/* Countdown to March 3, 2026 IST */
+const birthday=new Date("March 3, 2026 00:00:00 GMT+0530").getTime();
+const timerInterval=setInterval(function(){
+const now=new Date().getTime();
+const distance=birthday-now;
+
+if(distance<=0){
+clearInterval(timerInterval);
+showPage2();
+return;
+}
+
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("timer").innerHTML=
+days+"d "+hours+"h "+minutes+"m "+seconds+"s";
 },1000);
 
-// ===== SLIDESHOW =====
-const images=["photo1.jpg","photo2.jpg","photo3.jpg"];
-const dates=[
-"That day we couldn't stop smiling 💛",
-"Our cutest lunch date 🥰",
-"My favorite picture of us 🐢"
-];
-
-let index=0;
-
-setInterval(function(){
-index=(index+1)%images.length;
-document.getElementById("slideImage").src=images[index];
-document.getElementById("dateTag").innerText=dates[index];
-},3000);
-
-// ===== MUSIC =====
-function playMusic(){
-document.getElementById("bgMusic").play();
+/* Page transitions */
+function showPage2(){
+document.getElementById("page1").classList.replace("visible","hidden");
+document.getElementById("page2").classList.replace("hidden","visible");
+startBackgroundSlideshow();
+music.volume=0.4;
 }
 
-// ===== HEARTS =====
-function launchHearts(){
-setInterval(function(){
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💛";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(Math.random()*20+10)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},500);
+function goToInvite(){
+document.getElementById("page2").classList.replace("visible","hidden");
+document.getElementById("page3").classList.replace("hidden","visible");
+music.volume=0.3;
 }
 
-// ===== YES BUTTON =====
-function yesClicked(){
-alert("Good choice, Miss Geet 😌💛");
-}
-
-// ===== RUNNING NO BUTTON =====
+/* No button jumps */
 function moveNo(){
 const btn=document.getElementById("noBtn");
 btn.style.position="absolute";
@@ -219,7 +292,34 @@ btn.style.left=Math.random()*80+"vw";
 btn.style.top=Math.random()*80+"vh";
 }
 
+/* Slideshow Page 1 */
+const images=[
+"photo1.jpg","photo2.jpg","photo3.jpg",
+"photo5.jpg","photo6.jpg","photo7.jpg",
+"photo8.jpg","photo9.jpg","photo10.jpg"
+];
+
+let index=0;
+setInterval(()=>{
+index=(index+1)%images.length;
+document.getElementById("slideImage").src=images[index];
+},3000);
+
+/* Background slideshow Page 2 */
+let bgIndex=0;
+function startBackgroundSlideshow(){
+document.getElementById("bgSlideshow").style.backgroundImage="url('"+images[0]+"')";
+setInterval(()=>{
+bgIndex=(bgIndex+1)%images.length;
+document.getElementById("bgSlideshow").style.backgroundImage="url('"+images[bgIndex]+"')";
+},4000);
+}
+
 </script>
 
 </body>
 </html>
+
+
+
+
