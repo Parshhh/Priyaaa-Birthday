@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turtle’s 24th Birthday 🐢💛</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* Pages */
+#countdownPage,#revealPage{
+padding:40px 20px;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+#revealPage{display:none;}
+
+/* Timer */
+.timer{
+font-size:38px;
+margin:20px 0;
+font-weight:bold;
+}
+
+/* Slideshow */
+.slideshow img{
+width:260px;
+height:340px;
+object-fit:cover;
+border-radius:20px;
+transition:opacity 1s ease-in-out;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.dateTag{
+margin-top:10px;
+font-size:14px;
+opacity:0.9;
+}
+
+/* Polaroids */
+.polaroid{
+position:absolute;
+width:120px;
+border:8px solid white;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Buttons */
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+font-size:16px;
+cursor:pointer;
+margin:10px;
+background:white;
+color:#ff4e73;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* Hearts */
+.heart{
+position:fixed;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.7;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+.fade{
+animation:fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- COUNTDOWN PAGE -->
+<div id="countdownPage">
+<h1>Hey Turtle 🐢</h1>
+<p>Something magical unlocks at midnight...</p>
+<div class="timer" id="timer"></div>
+
+<div class="slideshow">
+<img id="slideImage" src="photo1.jpg">
+<div class="dateTag" id="dateTag">Our first memory 💛</div>
+</div>
+</div>
+
+<!-- REVEAL PAGE -->
+<div id="revealPage">
+<h1 class="fade">Happy 24th Birthday, Priya 🎂✨</h1>
+
+<p class="fade">
+Main apni favorite hoon…  
+But tonight, you’re my forever favorite.
+</p>
+
+<p class="fade">
+Agar life ek train journey hai,  
+toh I’m just grateful I met my Geet in this lifetime.  
+Tumne meri simple si story ko full Bollywood bana diya.
+</p>
+
+<p class="fade">
+Get ready by 12.  
+Your driver is arriving.  
+Aur haan… late mat hona 😌
+</p>
+
+<h2 class="fade">Nido – Craft Kitchen & Bar 🍽✨</h2>
+<p>Bangalore</p>
+
+<button onclick="playMusic()">Play Our Song 🎵</button>
+
+<h3>Will you come on your birthday lunch date with me?</h3>
+<button onclick="yesClicked()">Yes 💛</button>
+<button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+
+<audio id="bgMusic" src="instrumental.mp3"></audio>
+</div>
+
+<script>
+
+// ===== IST COUNTDOWN =====
+const birthday = new Date("March 3, 2026 00:00:00 GMT+0530").getTime();
+
+const timerInterval = setInterval(function(){
+const now = new Date().getTime();
+const distance = birthday - now;
+
+const days = Math.floor(distance/(1000*60*60*24));
+const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds = Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("timer").innerHTML =
+days+"d "+hours+"h "+minutes+"m "+seconds+"s";
+
+if(distance<0){
+clearInterval(timerInterval);
+document.getElementById("countdownPage").style.display="none";
+document.getElementById("revealPage").style.display="flex";
+launchHearts();
+document.documentElement.requestFullscreen();
+}
+},1000);
+
+// ===== SLIDESHOW =====
+const images=["photo1.jpg","photo2.jpg","photo3.jpg"];
+const dates=[
+"That day we couldn't stop smiling 💛",
+"Our cutest lunch date 🥰",
+"My favorite picture of us 🐢"
+];
+
+let index=0;
+
+setInterval(function(){
+index=(index+1)%images.length;
+document.getElementById("slideImage").src=images[index];
+document.getElementById("dateTag").innerText=dates[index];
+},3000);
+
+// ===== MUSIC =====
+function playMusic(){
+document.getElementById("bgMusic").play();
+}
+
+// ===== HEARTS =====
+function launchHearts(){
+setInterval(function(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💛";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+10)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},500);
+}
+
+// ===== YES BUTTON =====
+function yesClicked(){
+alert("Good choice, Miss Geet 😌💛");
+}
+
+// ===== RUNNING NO BUTTON =====
+function moveNo(){
+const btn=document.getElementById("noBtn");
+btn.style.position="absolute";
+btn.style.left=Math.random()*80+"vw";
+btn.style.top=Math.random()*80+"vh";
+}
+
+</script>
+
+</body>
+</html>
